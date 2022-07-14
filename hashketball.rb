@@ -128,12 +128,12 @@ def game_hash
   }
 end
 
-def get_players(field)
-  game_hash.each do |team, data| 
-    data
-    # binding.pry
-  end
-end
+# def get_players(field)
+#   game_hash.each do |team, data| 
+#     data
+#     # binding.pry
+#   end
+# end
 
 # methods with *** have to do with just players
 def get_players
@@ -198,11 +198,41 @@ def most_points_scored
   sorted_array =  get_players.sort_by{ |player| player[:points]}
   sorted_array.last[:player_name]
 end
+
 #winning_team // add all players points return team
+def winning_team
+  # on each team, add points, compare
+  brooklyn_points = 0
+  get_team("Brooklyn Nets")[1][:players].each do |player|
+    brooklyn_points += player[:points]
+  end
+  charolette_points = 0
+  get_team("Charlotte Hornets")[1][:players].each do |player|
+    charolette_points += player[:points]
+  end
+  if brooklyn_points > charolette_points
+    puts"Brooklyn Nets"
+  else
+    puts "Charlotte Hornets"
+  end
+end
+
 # *** player_with_longest_name // returns player with ...
+def player_with_longest_name
+  get_players.sort_by{ |player| player[:player_name].length}.last[:player_name]
+end
+
 # *** long_name_steals_a_ton? // compare to all other players steals
+def long_name_steals_a_ton?
+  sorted_array = get_players.sort_by{ |player| player[:steals]}
+  sorted_array.last[:player_name].include?(player_with_longest_name)
+
+end
 
 # get_players
 # puts team_names
 # num_points_scored("Jason Terry")
 puts most_points_scored #Ben Gordon
+winning_team # Brooklyn Nets 
+player_with_longest_name # Bismack Biyombo
+puts long_name_steals_a_ton? #true
